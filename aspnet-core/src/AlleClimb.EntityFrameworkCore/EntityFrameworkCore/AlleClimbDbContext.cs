@@ -15,6 +15,9 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace AlleClimb.EntityFrameworkCore;
 
+using ClimberGroups;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
 [ConnectionStringName("Default")]
@@ -38,7 +41,7 @@ public class AlleClimbDbContext :
      * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
      */
 
-    //Identity
+    // Identity
     public DbSet<IdentityUser> Users { get; set; }
     public DbSet<IdentityRole> Roles { get; set; }
     public DbSet<IdentityClaimType> ClaimTypes { get; set; }
@@ -49,6 +52,10 @@ public class AlleClimbDbContext :
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
+    // Domain
+    public DbSet<ClimberGroup> ClimberGroups { get; set; }
+
 
     #endregion
 
@@ -81,5 +88,23 @@ public class AlleClimbDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        /*builder.Entity<ClimberGroup>(b =>
+        {
+            b.ToTable(AlleClimbConsts.DbTablePrefix + "ClimberGroups", AlleClimbConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Name).IsRequired().HasMaxLength(64);
+            b.Property(x => x.Description).HasMaxLength(256);
+            b.HasIndex(x => x.Name).IsUnique();
+        });*/
+
+        builder.Entity<ClimberGroup>(g =>
+        {
+            g.ToTable(AlleClimbConsts.DbTablePrefix + "ClimberGroups", AlleClimbConsts.DbSchema);
+            g.ConfigureByConvention();
+            g.Property(x => x.Name).IsRequired().HasMaxLength(128);
+            g.Property(x => x.Description).HasMaxLength(256);
+            g.HasIndex(x => x.Name).IsUnique();
+        });
     }
 }
