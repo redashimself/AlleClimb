@@ -25,6 +25,23 @@
             <a abp-button="Primary" href="~/Account/Login"><i class="fa fa-sign-in"></i> @L["Login"]</a>
         }
 
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var role in CurrentUser.Roles)
+            {
+                <tr>
+                    <td>@role</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+
     </div>
     <div class="card">
         <div class="card-body">
