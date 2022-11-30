@@ -2,10 +2,13 @@
 
 namespace AlleClimb.Web;
 
+using ClimberGroups;
+
 public class AlleClimbWebAutoMapperProfile : Profile
 {
     public AlleClimbWebAutoMapperProfile()
     {
-        //Define your AutoMapper configuration here for the Web project.
+        CreateMap<ClimberGroup, ClimberGroupDto>();
+        CreateMap<CreateUpdateClimberGroupDto, ClimberGroup>();
     }
 }
